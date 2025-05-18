@@ -23,6 +23,7 @@ async function main() {
     const url = "https://example.com/"
 
     const bot_checker ='https://pixelscan.net/fingerprint-check'
+    const prothom_alo= "https://www.prothomalo.com/"
 
     puppeteer.use(StealthPlugin ())
     console.log(`OPEN STEALTH BROWSER`)
@@ -40,12 +41,11 @@ async function main() {
     })
     const page = await browser.newPage()
     //await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36')
-    await page.goto(bot_checker,{
-        waitUntil:'load'
+    await page.goto(prothom_alo,{
+        waitUntil:['load','networkidle0']
     })
-    console.log(`botchecker loaded... waiting for 35 seconds to give webpage a bit time`)
-    await setTimeout(35000)
-    // console.log(`waiting for 5 seconds`)
+    
+    console.log(`page loaded.`)
     // await setTimeout(5000)
     // const html = await page.content()
     // await fs.writeFile('url_2_data.html',html,'utf-8')
@@ -64,6 +64,18 @@ async function main() {
         }
     })
     console.log(data)
+    // now extracting all links . 
+    const links = await page.$$eval('a', aTag => {
+        return aTag.map(a => {
+            return {
+                title : a?.textContent?.trim(),
+                href : a?.href
+            }
+        })
+    })
+    console.log(`writting ${links.length} links to json file`)
+    await fs.writeFile('Links.json',JSON.stringify(links, null, 2),'utf-8')
+    console.log(`all done. closing everything`)
     await page.close()
     await browser.close()
 
