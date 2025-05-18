@@ -22,6 +22,8 @@ async function main() {
     const url_2 = 'https://vplates.com.au'
     const url = "https://example.com/"
 
+    const bot_checker ='https://pixelscan.net/fingerprint-check'
+
     puppeteer.use(StealthPlugin ())
     console.log(`OPEN STEALTH BROWSER`)
     const browser = await puppeteer.launch({
@@ -37,10 +39,12 @@ async function main() {
             }
     })
     const page = await browser.newPage()
-    await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36')
-    await page.goto(url_2,{
+    //await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36')
+    await page.goto(bot_checker,{
         waitUntil:'load'
     })
+    console.log(`botchecker loaded... waiting for 35 seconds to give webpage a bit time`)
+    await setTimeout(35000)
     // console.log(`waiting for 5 seconds`)
     // await setTimeout(5000)
     // const html = await page.content()
@@ -49,6 +53,7 @@ async function main() {
     // await page.screenshot({path:'url_2.png'})
 
     //check if webdriver is controlling the page
+    await page.screenshot({path:'pixelscan.png'})
     const data = await page.evaluate( ()=> {
         return {
             userAgent: navigator.userAgent,
