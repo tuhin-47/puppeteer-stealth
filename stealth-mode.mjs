@@ -8,6 +8,7 @@
  * Plugin:
  * ------
  * [1]https://github.com/berstend/puppeteer-extra/tree/master/packages/puppeteer-extra-plugin-stealth
+ * Resource List: https://github.com/transitive-bullshit/awesome-puppeteer?tab=readme-ov-file
  */
 import puppeteer from 'puppeteer-extra'
 import { setTimeout } from 'timers/promises'
